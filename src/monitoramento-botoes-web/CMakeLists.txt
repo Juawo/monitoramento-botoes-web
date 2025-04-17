@@ -46,11 +46,23 @@ pico_enable_stdio_usb(monitoramento-botoes-web 1)
 
 # Add the standard library to the build
 target_link_libraries(monitoramento-botoes-web
+        hardware_gpio
+        hardware_adc
+        pico_cyw43_arch_lwip_threadsafe_background
         pico_stdlib)
 
 # Add the standard include files to the build
 target_include_directories(monitoramento-botoes-web PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
+        ${PICO_SDK_PATH}/lib/lwip/src/include
+        ${PICO_SDK_PATH}/lib/lwip/src/include/arch
+        ${PICO_SDK_PATH}/lib/lwip/src/include/lwip
+        include
+)
+
+target_sources(monitoramento-botoes-web PRIVATE
+    ${PICO_SDK_PATH}/lib/lwip/src/apps/http/httpd.c
+    ${PICO_SDK_PATH}/lib/lwip/src/apps/http/fs.c
 )
 
 # Add any user requested libraries
