@@ -9,7 +9,14 @@
 #include "lwip/netif.h"
 #include "lwip/tcp.h"
 #include "lwip/pbuf.h"
+#include "button_monitor.h"
 
-err_t tcp_server_env_data();
+#define SERVER_IP ""        // IP do servidor
+#define SERVER_PORT 3000    // Número da porta que o servidor está rodando
+#define SERVER_PATH ""      // Nome da rota
+
+err_t sent_callback(void *arg, struct tcp_pcb *tpcb, u16_t len);
+void send_data_to_server(const char *path, char *request_body, const char *type_method);
+void create_request(ButtonStates btn_states, float temperature);
 
 #endif
