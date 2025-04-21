@@ -35,7 +35,11 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(monitoramento-botoes-web monitoramento-botoes-web.c )
+add_executable(monitoramento-botoes-web monitoramento-botoes-web.c
+        src/button_monitor.c
+        src/temperature_sensor.c
+        src/web_server.c
+        src/wifi_connection.c)
 
 pico_set_program_name(monitoramento-botoes-web "monitoramento-botoes-web")
 pico_set_program_version(monitoramento-botoes-web "0.1")

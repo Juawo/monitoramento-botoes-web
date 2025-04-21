@@ -57,7 +57,7 @@ void create_request(ButtonStates btn_states, float temperature)
 {
     const char *type_method = "POST";
     const char *path = SERVER_PATH;
-    const json_request[256];
+    char json_request[256];
 
     snprintf(json_request, sizeof(json_request),
              "{ \"temperature\" : %f, "

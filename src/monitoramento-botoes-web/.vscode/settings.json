@@ -38,6 +38,7 @@
     "raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
     "files.associations": {
         ".fantomasignore": "ignore",
-        "wifi_connection.h": "c"
+        "wifi_connection.h": "c",
+        "temperature_sensor.h": "c"
     }
 }

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void setup_temeprature_sensor();
+void setup_temperature_sensor();
 float read_temperature_sensor();
 
 #endif

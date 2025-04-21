@@ -10,9 +10,11 @@ int main()
 {
     stdio_init_all();
     sleep_ms(1000);
+
+    // Inicializando os botões, sensor de temperatura e a placa de Wi-Fi
     setup_buttons();
-    setup_temeprature_sensor();
     setup_wifi();
+    setup_temperature_sensor();
 
     ButtonStates btn_states;
     float temperature;
