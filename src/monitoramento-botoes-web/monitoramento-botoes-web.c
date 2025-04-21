@@ -1,22 +1,34 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "pico/cyw43_arch.h"
+#include "button_monitor.h"
+#include "temperature_sensor.h"
+#include "web_server.h"
+#include "wifi_connection.h"
 
 int main()
 {
     stdio_init_all();
+    sleep_ms(1000);
+    setup_buttons();
+    setup_temeprature_sensor();
+    setup_wifi();
 
-    // Initialise the Wi-Fi chip
-    if (cyw43_arch_init()) {
-        printf("Wi-Fi init failed\n");
-        return -1;
-    }
+    ButtonStates btn_states;
+    float temperature;
 
-    // Example to turn on the Pico W LED
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+    while (true)
+    {
+        // Lendo e armazenando estados dos botões
+        btn_states = read_button_states();
 
-    while (true) {
-        printf("Hello, world!\n");
+        // Lendo e armazenando estado do sensor de temperatura
+        temperature = read_temperature_sensor();
+
+        // Criando requisição para enviar o estado do botões e da temperatura do sensor para o servidor
+        create_request(btn_states, temperature);
+
+        // Aguardando 1 segundo para repetir o processo
         sleep_ms(1000);
     }
 }
