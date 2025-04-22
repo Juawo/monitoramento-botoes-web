@@ -33,4 +33,7 @@ int main()
         // Aguardando 1 segundo para repetir o processo
         sleep_ms(1000);
     }
+
+    cyw43_arch_deinit();
+    return 0;
 }

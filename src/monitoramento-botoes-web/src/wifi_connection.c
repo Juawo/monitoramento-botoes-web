@@ -2,7 +2,7 @@
 
 void setup_wifi()
 {
-    if(cyw43_arch_init())
+    if(cyw43_arch_init() != 0)
     {
         printf("Erro ao inicializar Wi-Fi\n");
         return;
@@ -17,5 +17,4 @@ void setup_wifi()
     }
 
     printf("Conectado ao Wi-Fi!\n");
-
 }

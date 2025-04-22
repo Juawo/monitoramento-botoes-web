@@ -27,25 +27,27 @@ void send_data_to_server(const char *path, char *request_body, const char *type_
     }
 
     char request[521];
-    snprintf(request, strlen(request),
+    snprintf(request, sizeof(request),
              "%s %s HTTP/1.1\r\n"
              "Host: %s \r\n"
              "Content-Type: application/json\r\n"
              "Content-Length: %d\r\n"
              "\r\n"
              "%s",
-             type_method, path, strlen(request), request_body);
-    
+             type_method, path, SERVER_IP, strlen(request_body), request_body);
+
+    printf("Requisição HTTP : %s\n", request);
+
     tcp_sent(pcb, sent_callback);
 
-    if(tcp_write(pcb, request, strlen(request), TCP_WRITE_FLAG_COPY) != ERR_OK)
+    if (tcp_write(pcb, request, strlen(request), TCP_WRITE_FLAG_COPY) != ERR_OK)
     {
         printf("Erro ao enviar dados!\n");
         tcp_abort(pcb);
         return;
     }
 
-    if(tcp_output(pcb) != ERR_OK)
+    if (tcp_output(pcb) != ERR_OK)
     {
         printf("Erro ao enviar dados (tcp_output) !\n");
         tcp_abort(pcb);
@@ -60,10 +62,11 @@ void create_request(ButtonStates btn_states, float temperature)
     char json_request[256];
 
     snprintf(json_request, sizeof(json_request),
-             "{ \"temperature\" : %f, "
+             "{ \"Temperature\" : %f, "
              "\"btn_a_state\" : %d, "
              "\"btn_b_state\" : %d }",
              temperature, btn_states.btn_a_state, btn_states.btn_b_state);
 
+    printf("JSON gerado : %s\n", json_request);
     send_data_to_server(path, json_request, type_method);
 }
