@@ -1,5 +1,4 @@
-using System.Net; 
-using Microsoft.AspNetCore.Http.HttpResults; 
+using System.Net;
 using MonitoramentoWebApi; 
 
 // Cria o builder para configurar o aplicativo.
@@ -50,30 +49,3 @@ app.MapPost("/dados", async (HttpContext context) =>
     // Retorna erro se o JSON for inválido.
     return Results.BadRequest("JSON inválido!"); 
 });
-
-// Obtém o IP local.
-var localIp = GetLocalIpAdress(); 
-// Exibe a URL do servidor.
-Console.WriteLine($"Servidor rodando em : http://{localIp}:5000"); 
-
-// Inicia o servidor.
-app.Run(); 
-
-// Método para obter o IP local.
-static string GetLocalIpAdress() 
-{
-    // Obtém informações do host local.
-    var host = Dns.GetHostEntry(Dns.GetHostName()); 
-    // Itera pelos endereços IP.
-    foreach (var ip in host.AddressList) 
-    {
-        // Verifica se é IPv4.
-        if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) 
-        {
-            // Retorna o IP.
-            return ip.ToString(); 
-        }
-    }
-    // Retorna localhost se nenhum IP for encontrado.
-    return "localhost"; 
-}
