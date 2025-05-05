@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "xXmCIFZHG7M=",
+  "dgSpecHash": "+0Uyt16DQcI=",
   "success": true,
   "projectFilePath": "/home/joao-pedro/Documentos/DevFiles/Embarca-Tech/Residência/Projetos/projeto-monitoramento-botoes-web/src/web-server/MonitoramentoWebApi/MonitoramentoWebApi.csproj",
   "expectedPackageFiles": [
-    "/home/joao-pedro/.nuget/packages/microsoft.aspnetcore.openapi/9.0.3/microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
-    "/home/joao-pedro/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+    "/home/joao-pedro/.nuget/packages/microsoft.netcore.app.ref/6.0.36/microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "/home/joao-pedro/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.36/microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
+    "/home/joao-pedro/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.36/microsoft.netcore.app.host.linux-x64.6.0.36.nupkg.sha512"
   ],
   "logs": []
 }
