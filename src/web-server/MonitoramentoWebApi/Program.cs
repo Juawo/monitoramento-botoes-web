@@ -5,7 +5,8 @@ using MonitoramentoWebApi;
 // Cria o builder para configurar o aplicativo.
 var builder = WebApplication.CreateBuilder(args); 
 // Define a URL base do servidor.
-builder.WebHost.UseUrls("http://0.0.0.0:5000"); 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Constrói o aplicativo.
 var app = builder.Build(); 
