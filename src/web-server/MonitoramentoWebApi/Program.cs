@@ -49,3 +49,5 @@ app.MapPost("/dados", async (HttpContext context) =>
     // Retorna erro se o JSON for inválido.
     return Results.BadRequest("JSON inválido!"); 
 });
+
+app.Run(); 
