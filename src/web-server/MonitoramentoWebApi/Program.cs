@@ -1,55 +1,78 @@
-using System.Net;
-using Microsoft.AspNetCore.Http.HttpResults;
-using MonitoramentoWebApi;
+using System.Net; 
+using Microsoft.AspNetCore.Http.HttpResults; 
+using MonitoramentoWebApi; 
 
-var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://0.0.0.0:5000");
+// Cria o builder para configurar o aplicativo.
+var builder = WebApplication.CreateBuilder(args); 
+// Define a URL base do servidor.
+builder.WebHost.UseUrls("http://0.0.0.0:5000"); 
 
-var app = builder.Build();
+// Constrói o aplicativo.
+var app = builder.Build(); 
 
-PicoData? data = new (2.0f, 0, 1);
+// Inicializa um objeto de dados com valores padrão.
+PicoData? data = new (2.0f, 0, 1); 
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
+// Habilita arquivos padrão como index.html.
+app.UseDefaultFiles(); 
+// Habilita o uso de arquivos estáticos.
+app.UseStaticFiles(); 
 
-app.MapGet("/dados", () =>
+// Define endpoint GET para retornar os dados.
+app.MapGet("/dados", () => 
 {
-    if (data != null)
+    // Verifica se os dados existem.
+    if (data != null) 
     {
-        // Console.WriteLine(data);
-        return Results.Json(data);
+        // Retorna os dados como JSON.
+        return Results.Json(data); 
     }
-    return Results.Json(new { Temperature = 0.0f, ButtonAState = false, ButtonBState = false });
+    // Retorna valores padrão.
+    return Results.Json(new { Temperature = 0.0f, ButtonAState = false, ButtonBState = false }); 
 });
 
-app.MapPost("/dados", async (HttpContext context) =>
+// Define endpoint POST para receber dados.
+app.MapPost("/dados", async (HttpContext context) => 
 {
-    var body = await context.Request.ReadFromJsonAsync<PicoData>();
-    if (body != null)
+    // Lê o corpo da requisição como JSON.
+    var body = await context.Request.ReadFromJsonAsync<PicoData>(); 
+    // Verifica se os dados são válidos.
+    if (body != null) 
     {
-        data = body;
-        Console.WriteLine($"Dados Recebidos da Pico W: Temp={body.Temperature} A={body.ButtonAState} B={body.ButtonBState}");
-        return Results.Ok("Dados Recebidos");
+        // Atualiza os dados recebidos.
+        data = body; 
+        // Loga os dados recebidos.
+        Console.WriteLine($"Dados Recebidos da Pico W: Temp={body.Temperature} A={body.ButtonAState} B={body.ButtonBState}"); 
+        // Retorna sucesso.
+        return Results.Ok("Dados Recebidos"); 
     }
-    return Results.BadRequest("JSON inválido!");
+    // Retorna erro se o JSON for inválido.
+    return Results.BadRequest("JSON inválido!"); 
 });
 
-// app.MapFallbackToFile("wwwroot/index.html");
+// Obtém o IP local.
+var localIp = GetLocalIpAdress(); 
+// Exibe a URL do servidor.
+Console.WriteLine($"Servidor rodando em : http://{localIp}:5000"); 
 
-var localIp = GetLocalIpAdress();
-Console.WriteLine($"Servidor rodando em : http://{localIp}:5000");
+// Inicia o servidor.
+app.Run(); 
 
-app.Run();
-
-static string GetLocalIpAdress()
+// Método para obter o IP local.
+static string GetLocalIpAdress() 
 {
-    var host = Dns.GetHostEntry(Dns.GetHostName());
-    foreach (var ip in host.AddressList)
+    // Obtém informações do host local.
+    var host = Dns.GetHostEntry(Dns.GetHostName()); 
+    // Itera pelos endereços IP.
+    foreach (var ip in host.AddressList) 
     {
-        if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+        // Verifica se é IPv4.
+        if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) 
         {
-            return ip.ToString();
+            // Retorna o IP.
+            return ip.ToString(); 
         }
     }
-    return "localhost";
+    // Retorna localhost se nenhum IP for encontrado.
+    return "localhost"; 
 }

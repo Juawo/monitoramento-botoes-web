@@ -65,7 +65,7 @@ O projeto é dividido em duas partes principais:
 
 2. **Configuração**:
 
-   - Certifique-se de que o servidor está configurado para rodar na porta `5000` (ou ajuste conforme necessário no arquivo ).
+   - Certifique-se de que o servidor está configurado para rodar na porta `5000` (ou ajuste conforme necessário no arquivo [Program.cs](http://_vscodecontentref_/0)).
 
 3. **Execução**:
 
@@ -95,19 +95,29 @@ O projeto é dividido em duas partes principais:
 
 ## Estrutura de Arquivos
 
-- **Firmware**:
-  - : Código-fonte do firmware para o Raspberry Pi Pico W.
-- **Servidor Web**:
-  - : Código-fonte do servidor web em ASP.NET Core.
-- **Interface Web**:
-  - `wwwroot/`: Arquivos HTML, CSS e JavaScript para a interface web.
+### Firmware
+
+- **Arquivo principal**: [monitoramento-botoes-web.c](http://_vscodecontentref_/1)
+- **Configuração de Wi-Fi**: [wifi_connection.h](http://_vscodecontentref_/2) e [wifi_connection.c](http://_vscodecontentref_/3)
+- **Monitoramento de botões**: [button_monitor.h](http://_vscodecontentref_/4) e [button_monitor.c](http://_vscodecontentref_/5)
+- **Sensor de temperatura**: [temperature_sensor.h](http://_vscodecontentref_/6) e [temperature_sensor.c](http://_vscodecontentref_/7)
+- **Comunicação com o servidor**: [web_server.h](http://_vscodecontentref_/8) e [web_server.c](http://_vscodecontentref_/9)
+
+### Servidor Web
+
+- **Arquivo principal**: [Program.cs](http://_vscodecontentref_/10)
+- **Modelo de dados**: [PicoData.cs](http://_vscodecontentref_/11)
+- **Interface web**:
+  - HTML: [index.html](http://_vscodecontentref_/12)
+  - CSS: [styles.css](http://_vscodecontentref_/13)
+  - JavaScript: [script.js](http://_vscodecontentref_/14)
 
 ---
 
 ## Observações
 
 - Certifique-se de que o Raspberry Pi Pico W e o servidor web estão conectados à mesma rede para que a comunicação funcione corretamente.
-- O endereço IP do servidor deve ser configurado no firmware do Raspberry Pi Pico W no arquivo :
+- O endereço IP do servidor deve ser configurado no firmware do Raspberry Pi Pico W no arquivo [web_server.h](http://_vscodecontentref_/15):
   ```c
   #define SERVER_IP "192.168.1.196" // Substitua pelo IP do servidor
   ```
