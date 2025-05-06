@@ -1,123 +1,79 @@
-# Projeto de Monitoramento de Botões WEB
+# Monitoramento de Botões via Web
 
-Este projeto consiste em um sistema de monitoramento de botões e temperatura utilizando um microcontrolador Raspberry Pi Pico W. Os dados coletados pelos sensores são enviados para um servidor web, onde podem ser visualizados em tempo real por meio de uma interface web.
+ Este projeto monitora dois botões e a temperatura interna da Raspberry Pi Pico W, enviando os dados a um servidor web para visualização em tempo real.
 
-## Estrutura do Projeto
+🔗 Servidor remoto: [monitoramento-botoes-web](https://monitoramento-botoes-web-production.up.railway.app/)
 
-O projeto é dividido em duas partes principais:
+## 📁 Estrutura
 
-1. **Firmware do Raspberry Pi Pico W**:
+- **Firmware (C)**: Lê os botões (GPIO 5 e 6) e o sensor de temperatura, enviando dados via HTTP.
+- **Servidor Web (ASP.NET Core)**: API REST com interface web para exibição dos dados.
 
-   - Código em C que coleta os dados dos sensores (botões e temperatura) e os envia para o servidor web via HTTP.
-   - Principais funcionalidades:
-     - Monitoramento do estado de dois botões.
-     - Leitura da temperatura utilizando o sensor interno do Raspberry Pi Pico W.
-     - Envio dos dados para o servidor web.
+## ⚙️ Requisitos
 
-2. **Servidor Web**:
-   - Aplicação ASP.NET Core que recebe os dados enviados pelo Raspberry Pi Pico W e os disponibiliza para visualização em uma interface web.
-   - Principais funcionalidades:
-     - API REST para receber e fornecer os dados dos sensores.
-     - Interface web para exibir os dados em tempo real.
+### Pico W
+- Raspberry Pi Pico W
+- 2 botões (GPIO 5 e 6)
+- Pico SDK, GCC, CMake, Ninja
 
-## Requisitos para Execução
+### Web Server
+- .NET SDK 6.0+
+- Navegador moderno
 
-### Firmware do Raspberry Pi Pico W
+## 🚀 Execução
 
-1. **Hardware**:
+### 🔧 Execução Local
+1. **Servidor:**
+   ```bash
+   cd src/web-server/MonitoramentoWebApi
+   dotnet restore
+   dotnet run
+2. **Pico W:** configure wifi_connection.h com sua rede:
 
-   - Raspberry Pi Pico W.
-   - Dois botões conectados aos pinos GPIO 5 e GPIO 6.
-   - Rede Wi-Fi disponível para conexão.
+   ``` c
+   #define WIFI_SSID "SEU_SSID"
+   #define WIFI_PASSWORD "SUA_SENHA"
+   ```
 
-2. **Software**:
+   Configure o IP local no firmware:
+   ```c
+   #define SERVER_IP "192.168.X.X" // IP do seu PC local
+   ```
+3. Compile e envie o firmware para a Pico.
 
-   - [Pico SDK](https://github.com/raspberrypi/pico-sdk) configurado no ambiente de desenvolvimento.
-   - Compilador ARM GCC.
-   - Ferramentas de build como CMake e Ninja.
+## 🌐 Execução Remota com Proxy
+1. **Servidor Proxy**: execute o projeto proxy-server:
+   ```bash
+   cd src/proxy-server
+   dotnet restore
+   dotnet run
+   ```
+2. **Pico W**: configure SERVER_IP com IP do seu PC que está rodando o proxy.
 
-3. **Configuração**:
+3. O proxy encaminhará os dados para o servidor remoto hospedado (Railway).
 
-   - Configure o arquivo `wifi_connection.h` com o SSID e a senha da sua rede Wi-Fi:
-     ```c
-     #define WIFI_SSID "SEU_SSID"
-     #define WIFI_PASSWORD "SUA_SENHA"
-     ```
+## 🔄 Funcionamento
+1. Pico W lê botões e temperatura.
 
-4. **Compilação e Upload**:
-   - Compile o firmware utilizando o CMake e Ninja:
-     ```bash
-     mkdir build
-     cd build
-     cmake ..
-     ninja
-     ```
-   - Faça o upload do firmware para o Raspberry Pi Pico W utilizando o `picotool` ou outra ferramenta de sua preferência.
+2. Envia via HTTP POST para o servidor.
 
----
+3. A interface web exibe os dados em tempo real.
 
-### Servidor Web
-
-1. **Requisitos de Software**:
-
-   - .NET SDK 9.0 ou superior.
-   - Ambiente de desenvolvimento configurado para ASP.NET Core.
-
-2. **Configuração**:
-
-   - Certifique-se de que o servidor está configurado para rodar na porta `5000` (ou ajuste conforme necessário no arquivo [Program.cs](http://_vscodecontentref_/0)).
-
-3. **Execução**:
-
-   - Navegue até o diretório do servidor web:
-     ```bash
-     cd src/web-server/MonitoramentoWebApi
-     ```
-   - Restaure as dependências e execute o servidor:
-     ```bash
-     dotnet restore
-     dotnet run
-     ```
-
-4. **Acesso à Interface Web**:
-   - Abra um navegador e acesse `http://<IP_DO_SERVIDOR>:5000` para visualizar os dados em tempo real.
-
----
-
-## Funcionamento
-
-1. O Raspberry Pi Pico W coleta os dados dos botões e do sensor de temperatura.
-2. Os dados são enviados via HTTP POST para o servidor web.
-3. O servidor web armazena os dados e os disponibiliza para a interface web.
-4. A interface web exibe os dados atualizados em tempo real.
-
----
-
-## Estrutura de Arquivos
-
+## 🗂️ Principais Arquivos
 ### Firmware
+- monitoramento-botoes-web.c
 
-- **Arquivo principal**: [monitoramento-botoes-web.c](http://_vscodecontentref_/1)
-- **Configuração de Wi-Fi**: [wifi_connection.h](http://_vscodecontentref_/2) e [wifi_connection.c](http://_vscodecontentref_/3)
-- **Monitoramento de botões**: [button_monitor.h](http://_vscodecontentref_/4) e [button_monitor.c](http://_vscodecontentref_/5)
-- **Sensor de temperatura**: [temperature_sensor.h](http://_vscodecontentref_/6) e [temperature_sensor.c](http://_vscodecontentref_/7)
-- **Comunicação com o servidor**: [web_server.h](http://_vscodecontentref_/8) e [web_server.c](http://_vscodecontentref_/9)
+- wifi_connection.[h/c]
 
-### Servidor Web
+- button_monitor.[h/c]
 
-- **Arquivo principal**: [Program.cs](http://_vscodecontentref_/10)
-- **Modelo de dados**: [PicoData.cs](http://_vscodecontentref_/11)
-- **Interface web**:
-  - HTML: [index.html](http://_vscodecontentref_/12)
-  - CSS: [styles.css](http://_vscodecontentref_/13)
-  - JavaScript: [script.js](http://_vscodecontentref_/14)
+- temperature_sensor.[h/c]
 
----
+- web_server.[h/c]
 
-## Observações
+### Web Server
+- Program.cs
 
-- Certifique-se de que o Raspberry Pi Pico W e o servidor web estão conectados à mesma rede para que a comunicação funcione corretamente.
-- O endereço IP do servidor deve ser configurado no firmware do Raspberry Pi Pico W no arquivo [web_server.h](http://_vscodecontentref_/15):
-  ```c
-  #define SERVER_IP "192.168.1.196" // Substitua pelo IP do servidor
-  ```
+- PicoData.cs
+
+- wwwroot/index.html, script.js, styles.css
