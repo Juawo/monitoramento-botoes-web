@@ -1,6 +1,6 @@
 # Monitoramento de Botões via Web
 
- Este projeto monitora dois botões e a temperatura interna da Raspberry Pi Pico W, enviando os dados a um servidor web para visualização em tempo real.
+Este projeto monitora dois botões e a temperatura interna da Raspberry Pi Pico W, enviando os dados a um servidor web para visualização em tempo real.
 
 🔗 Servidor remoto: [monitoramento-botoes-web](https://monitoramento-botoes-web-production.up.railway.app/)
 
@@ -12,47 +12,54 @@
 ## ⚙️ Requisitos
 
 ### Pico W
+
 - Raspberry Pi Pico W
 - 2 botões (GPIO 5 e 6)
 - Pico SDK, GCC, CMake, Ninja
 
 ### Web Server
+
 - .NET SDK 6.0+
 - Navegador moderno
 
 ## 🚀 Execução
 
 ### 🔧 Execução Local
+
 1. **Servidor:**
    ```bash
    cd src/web-server/MonitoramentoWebApi
    dotnet restore
    dotnet run
+   ```
 2. **Pico W:** configure wifi_connection.h com sua rede:
 
-   ``` c
+   ```c
    #define WIFI_SSID "SEU_SSID"
    #define WIFI_PASSWORD "SUA_SENHA"
    ```
 
    Configure o IP local no firmware:
+
    ```c
    #define SERVER_IP "192.168.X.X" // IP do seu PC local
    ```
+
 3. Compile e envie o firmware para a Pico.
 
 ## 🌐 Execução Remota com Proxy
+
 1. **Servidor Proxy**: execute o projeto proxy-server:
    ```bash
    cd src/proxy-server
-   dotnet restore
-   dotnet run
+   node proxy-server.js
    ```
 2. **Pico W**: configure SERVER_IP com IP do seu PC que está rodando o proxy.
 
 3. O proxy encaminhará os dados para o servidor remoto hospedado (Railway).
 
 ## 🔄 Funcionamento
+
 1. Pico W lê botões e temperatura.
 
 2. Envia via HTTP POST para o servidor.
@@ -60,7 +67,9 @@
 3. A interface web exibe os dados em tempo real.
 
 ## 🗂️ Principais Arquivos
+
 ### Firmware
+
 - monitoramento-botoes-web.c
 
 - wifi_connection.[h/c]
@@ -72,6 +81,7 @@
 - web_server.[h/c]
 
 ### Web Server
+
 - Program.cs
 
 - PicoData.cs
